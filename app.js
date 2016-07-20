@@ -155,17 +155,17 @@ configure_network();
 
 function configure_network() {
 
-    chain.setKeyValStore(hlc.newFileKeyValStore('/tmp/keyValStore'));
+    chain.setKeyValStore(hlc.newFileKeyValStore('./tmp/keyValStore'));
     if (fs.existsSync("tlsca.cert")) {
-        chain.setMemberServicesUrl("grpcs://fa4be0db-9a04-40be-86ae-5d7e0ec363ee_ca.blockchain.ibm.com:30304", fs.readFileSync('tlsca.cert'));
+        chain.setMemberServicesUrl("grpcs://test-ca.rtp.raleigh.ibm.com:50051", fs.readFileSync('tlsca.cert'));
     } else {
-        chain.setMemberServicesUrl("grpc://fa4be0db-9a04-40be-86ae-5d7e0ec363ee_ca.blockchain.ibm.com:30304");
+        chain.setMemberServicesUrl("grpc://test-ca.rtp.raleigh.ibm.com:50051");
     }
-    chain.addPeer("grpc://fa4be0db-9a04-40be-86ae-5d7e0ec363ee_vp0.blockchain.ibm.com:30304");
+    chain.addPeer("grpc://test-peer1.rtp.raleigh.ibm.com:30303");
     //chain.addPeer("grpc://1d06ff84-0d57-4df5-8807-6c9e23e210de_vp2-discovery.blockchain.ibm.com:30303");
     //chain.addPeer("grpc://test-peer3.rtp.raleigh.ibm.com:30303");
     //chain.setDevMode(true);
-    chain.getMember("admin", function (err, WebAppAdmin) {
+    chain.getMember("WebAppAdmin", function (err, WebAppAdmin) {
         if (err) {
             console.log("Failed to get WebAppAdmin member " + " ---> " + err);
             //t.end(err);
@@ -174,7 +174,7 @@ function configure_network() {
 
             // Enroll the WebAppAdmin member with the certificate authority using
             // the one time password hard coded inside the membersrvc.yaml.
-            var pw = "57a703ff4f";
+            var pw = "DJY27pEnl16d";
             WebAppAdmin.enroll(pw, function (err, crypto) {
                 if (err) {
                     console.log("Failed to enroll WebAppAdmin member " + " ---> " + err);
